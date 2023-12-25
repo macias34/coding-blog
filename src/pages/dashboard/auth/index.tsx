@@ -1,5 +1,5 @@
 import { SignInForm, authOptions } from "@/modules/auth";
-import { Card, Stack, Title } from "@mantine/core";
+import { Card, Stack, Text, Title } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
@@ -16,7 +16,10 @@ export default function DashboardAuth() {
         }}
       >
         <Stack>
-          <Title order={2}>Auth</Title>
+          <Stack gap="xs" className="mb-2">
+            <Title order={2}>Auth</Title>
+            <Text size="sm">Sign in to enter the dashboard</Text>
+          </Stack>
           <SignInForm />
         </Stack>
       </Card>
