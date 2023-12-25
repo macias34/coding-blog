@@ -4,7 +4,7 @@ import { useSignInForm } from "./use-sign-in-form";
 interface SignInFormProps {}
 
 export const SignInForm = ({}: SignInFormProps) => {
-  const { handleSubmit, getInputProps, errors, isLoading } = useSignInForm();
+  const { handleSubmit, getInputProps, errors, isPending } = useSignInForm();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -20,7 +20,7 @@ export const SignInForm = ({}: SignInFormProps) => {
           className="mb-4"
           error={errors.password}
         />
-        <Button loading={isLoading} type="submit">
+        <Button loading={isPending} type="submit">
           Sign in
         </Button>
       </Stack>

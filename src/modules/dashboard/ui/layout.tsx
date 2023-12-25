@@ -1,21 +1,11 @@
 import { AppShell, Burger, Group, NavLink } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  ShoppingCart,
-  Wand,
-  LogOut,
-  Pen,
-  Box,
-  BarChart4,
-  Percent,
-  BookMarked,
-  Home,
-  TextIcon,
-} from "lucide-react";
+import { Home, TextIcon } from "lucide-react";
 import Link from "next/link";
 import { FC, PropsWithChildren } from "react";
 import { cn } from "@/shared/utils";
 import Image from "next/image";
+import { SignOutButton } from "./sign-out-button";
 
 export interface LayoutProps extends PropsWithChildren {
   classNames?: {
@@ -64,6 +54,7 @@ export const Layout: FC<LayoutProps> = ({ children, classNames }) => {
           href="/posts"
           leftSection={<TextIcon size="1rem" />}
         />
+        <SignOutButton />
       </AppShell.Navbar>
       <AppShell.Main my="xl" className={cn("mx-44", classNames?.children)}>
         {children}

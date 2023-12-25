@@ -1,27 +1,22 @@
 import { useForm, zodResolver } from "@mantine/form";
 import { Credentials, CredentialsSchema } from "../../domain";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useSignIn } from "../../use-case";
 
 export const useSignInForm = () => {
-  const [isLoading, setLoading] = useState(false);
+  const { mutate, isPending } = useSignIn();
 
   const { getInputProps, onSubmit, errors } = useForm<Credentials>({
     validate: zodResolver(CredentialsSchema),
   });
 
   const handleSubmit = onSubmit((credentials: Credentials) => {
-    setLoading(true);
-
-    signIn("credentials", { ...credentials }).finally(() => {
-      setLoading(false);
-    });
+    mutate({ credentials });
   });
 
   return {
     getInputProps,
     handleSubmit,
     errors,
-    isLoading,
+    isPending,
   };
 };
