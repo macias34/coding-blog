@@ -1,5 +1,10 @@
 import z from "zod";
 
+export interface Credentials {
+  username: string;
+  password: string;
+}
+
 export const CredentialsSchema = z.object({
   username: z
     .string()
