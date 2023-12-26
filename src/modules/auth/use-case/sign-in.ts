@@ -1,7 +1,9 @@
-import { request } from "@/shared/utils";
-import { Session, Credentials } from "../domain";
 import { useMutation } from "@tanstack/react-query";
 import { signIn as nextAuthSignIn } from "next-auth/react";
+
+import { request } from "@/shared/utils";
+
+import { type Credentials, type Session } from "../domain";
 
 interface SignInArguments {
   credentials: Credentials;
