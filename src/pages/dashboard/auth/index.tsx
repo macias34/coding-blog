@@ -1,8 +1,9 @@
-import { SignInForm, authOptions } from "@/modules/auth";
 import { Card, Stack, Text, Title } from "@mantine/core";
-import { GetServerSideProps } from "next";
+import { type GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
+
+import { SignInForm, authOptions } from "@/modules/auth";
 
 export default function DashboardAuth() {
   const session = useSession();

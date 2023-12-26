@@ -46,13 +46,13 @@ export const Layout: FC<LayoutProps> = ({ children, classNames }) => {
         <NavLink
           label="Home"
           component={Link}
-          href="/"
+          href="/dashboard"
           leftSection={<Home size="1rem" />}
         />
         <NavLink
           label="Posts"
           component={Link}
-          href="/posts"
+          href="/dashboard/posts"
           leftSection={<TextIcon size="1rem" />}
         />
         <SignOutButton />
