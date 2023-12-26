@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import z from "zod";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signIn } from "@/modules/auth";
+import { User, signIn } from "@/modules/auth";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -23,16 +23,13 @@ export const authOptions: NextAuthOptions = {
           credentials
         );
 
-        const { accessToken } = await signIn({
+        const user = await signIn({
           credentials: { username, password },
         });
 
-        if (!accessToken || Object.keys(accessToken).length === 0) return;
+        const { accessToken } = user;
 
-        const user: { username: string; accessToken: string } = {
-          username,
-          accessToken,
-        };
+        if (!accessToken || Object.keys(accessToken).length === 0) return;
 
         return user as any;
       },
@@ -44,17 +41,18 @@ export const authOptions: NextAuthOptions = {
     maxAge: 10 * 60 * 60, // 10 hours
   },
   callbacks: {
-    jwt({ token, user }) {
+    jwt({ token, user, session }) {
+      console.log({ token, user, session });
       if (user) {
-        token.username = user.username;
+        token.user = user.user;
         token.accessToken = user.accessToken;
       }
       return token;
     },
     session({ session, token }) {
-      if (token?.username && token?.accessToken && session.user) {
-        session.user.username = token.username;
-        session.user.accessToken = token.accessToken;
+      if (token.user && token.accessToken && session.user) {
+        session.user = token.user;
+        session.accessToken = token.accessToken;
       }
 
       return session;

@@ -1,5 +1,5 @@
 import { request } from "@/shared/utils";
-import { AccessToken, Credentials } from "../domain";
+import { Session, Credentials } from "../domain";
 import { useMutation } from "@tanstack/react-query";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 
@@ -8,7 +8,7 @@ interface SignInArguments {
 }
 
 export const signIn = async ({ credentials }: SignInArguments) => {
-  return (await request.post<AccessToken>("/auth/sign-in", credentials)).data;
+  return (await request.post<Session>("/auth/sign-in", credentials)).data;
 };
 
 export const useSignIn = () => {
