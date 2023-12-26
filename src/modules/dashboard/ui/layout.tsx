@@ -1,10 +1,13 @@
 import { AppShell, Burger, Group, NavLink } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Home, TextIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { FC, PropsWithChildren } from "react";
+import { type FC, type PropsWithChildren } from "react";
+
 import { cn } from "@/shared/utils";
-import Image from "next/image";
+
+import { SessionInfo } from "./session-info";
 import { SignOutButton } from "./sign-out-button";
 
 export interface LayoutProps extends PropsWithChildren {
@@ -15,6 +18,8 @@ export interface LayoutProps extends PropsWithChildren {
 
 export const Layout: FC<LayoutProps> = ({ children, classNames }) => {
   const [opened, { toggle }] = useDisclosure();
+  const session = useSession();
+  const user = session?.data?.user;
 
   return (
     <AppShell
@@ -26,19 +31,13 @@ export const Layout: FC<LayoutProps> = ({ children, classNames }) => {
       }}
       padding="md"
     >
-      <AppShell.Header>
-        <Group h="100%" px="md">
+      <AppShell.Header px="lg">
+        <Group h="100%" w="100%" px="md" className="justify-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Link
-            href="/"
-            style={{
-              position: "relative",
-              aspectRatio: "848/503",
-              height: "3.5rem",
-            }}
-          >
-            <Image src={"/logo.png"} alt="logo" fill />
-          </Link>
+
+          {user && (
+            <SessionInfo avatarSrc={user.avatarSrc} username={user.username} />
+          )}
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="xl">
@@ -56,7 +55,7 @@ export const Layout: FC<LayoutProps> = ({ children, classNames }) => {
         />
         <SignOutButton />
       </AppShell.Navbar>
-      <AppShell.Main my="xl" className={cn("mx-44", classNames?.children)}>
+      <AppShell.Main m="xl" className={cn(classNames?.children)}>
         {children}
       </AppShell.Main>
     </AppShell>

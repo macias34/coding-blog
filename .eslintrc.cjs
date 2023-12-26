@@ -49,7 +49,8 @@ const config = {
       {
         "replacements": {
           "props": false,
-          "ref": false
+          "ref": false,
+          "src": false,
         }
       }
     ],

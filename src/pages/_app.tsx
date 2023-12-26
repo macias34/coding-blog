@@ -1,10 +1,11 @@
+import { MantineProvider, createTheme } from "@mantine/core";
 import "@mantine/core/styles.css";
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { createTheme, MantineProvider } from "@mantine/core";
-import { Poppins } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
+import type { AppProps } from "next/app";
+import { Poppins } from "next/font/google";
+
+import "../styles/globals.css";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -13,6 +14,7 @@ const poppins = Poppins({
 
 const theme = createTheme({
   primaryColor: "green",
+  scale: 1.1,
   fontFamily: poppins.style.fontFamily,
   defaultGradient: {
     from: "green",
@@ -42,6 +44,7 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <MantineProvider theme={theme} defaultColorScheme="dark">
