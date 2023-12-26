@@ -7,12 +7,12 @@ export const useCreatePostButton = () => {
   const { data } = useSession();
   const authorId = data?.user?.id ?? -1;
 
-  const onClick = () => {
+  const createPost = () => {
     mutate({ authorId });
   };
 
   return {
     isPending,
-    onClick,
+    createPost,
   };
 };

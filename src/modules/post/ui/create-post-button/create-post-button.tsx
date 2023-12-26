@@ -3,10 +3,10 @@ import { Button } from "@mantine/core";
 import { useCreatePostButton } from "./use-create-post-button";
 
 export const CreatePostButton = () => {
-  const { onClick, isPending } = useCreatePostButton();
+  const { createPost, isPending } = useCreatePostButton();
 
   return (
-    <Button onClick={onClick} loading={isPending}>
+    <Button onClick={createPost} loading={isPending}>
       Create post
     </Button>
   );
