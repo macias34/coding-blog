@@ -1,4 +1,4 @@
-import { AppShell, Burger, Group, NavLink } from "@mantine/core";
+import { AppShell, Burger, Group, NavLink, Skeleton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Home, TextIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -35,8 +35,10 @@ export const Layout: FC<LayoutProps> = ({ children, classNames }) => {
         <Group h="100%" w="100%" px="md" className="justify-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
 
-          {user && (
+          {user ? (
             <SessionInfo avatarSrc={user.avatarSrc} username={user.username} />
+          ) : (
+            <Skeleton width={180} height={40} />
           )}
         </Group>
       </AppShell.Header>
