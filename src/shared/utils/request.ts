@@ -11,7 +11,7 @@ request.interceptors.request.use(async (request) => {
   if (session) {
     request.headers.set(
       "Authorization",
-      `Bearer ${session?.user?.accessToken ?? ""}`
+      `Bearer ${session?.accessToken ?? ""}`,
     );
   }
 
