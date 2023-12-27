@@ -1,7 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
 import { signIn as nextAuthSignIn } from "next-auth/react";
+import Router from "next/router";
+import { useState } from "react";
 
-import { request } from "@/shared/utils";
+import { request, toast } from "@/shared/utils";
 
 import { type Credentials, type Session } from "../domain";
 
@@ -14,8 +15,31 @@ export const signIn = async ({ credentials }: SignInArguments) => {
 };
 
 export const useSignIn = () => {
-  return useMutation({
-    mutationFn: ({ credentials }: SignInArguments) =>
-      nextAuthSignIn("credentials", { ...credentials }),
-  });
+  const [isPending, setPending] = useState(false);
+
+  const execute = async (credentials: Credentials) => {
+    setPending(true);
+    try {
+      const response = await nextAuthSignIn("credentials", {
+        ...credentials,
+        redirect: false,
+      });
+      if (response?.ok) {
+        await Router.push("/dashboard");
+
+        toast.success({ message: "You have been signed in" });
+      } else {
+        throw new Error("Wrong credentials.");
+      }
+    } catch {
+      toast.error({ message: "You haven't been signed in" });
+    } finally {
+      setPending(false);
+    }
+  };
+
+  return {
+    execute,
+    isPending,
+  };
 };

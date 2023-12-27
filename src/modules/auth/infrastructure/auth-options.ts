@@ -1,7 +1,8 @@
-import { NextAuthOptions } from "next-auth";
-import z from "zod";
+import { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { User, signIn } from "@/modules/auth";
+import z from "zod";
+
+import { signIn } from "@/modules/auth";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -9,8 +10,8 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        login: { label: "Login", type: "text" },
-        password: { label: "Hasło", type: "password" },
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
       },
 
       authorize: async (credentials) => {
@@ -19,9 +20,8 @@ export const authOptions: NextAuthOptions = {
           password: z.string().min(5).max(100),
         });
 
-        const { username, password } = await loginSchema.parseAsync(
-          credentials
-        );
+        const { username, password } =
+          await loginSchema.parseAsync(credentials);
 
         const user = await signIn({
           credentials: { username, password },
@@ -31,6 +31,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!accessToken || Object.keys(accessToken).length === 0) return;
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any
         return user as any;
       },
     }),
@@ -41,13 +42,12 @@ export const authOptions: NextAuthOptions = {
     maxAge: 10 * 60 * 60, // 10 hours
   },
   callbacks: {
-    jwt({ token, user, session }) {
-      console.log({ token, user, session });
+    jwt({ token, user }) {
       if (user) {
         token.user = user.user;
         token.accessToken = user.accessToken;
       }
-      return token;
+      return Promise.resolve(token);
     },
     session({ session, token }) {
       if (token.user && token.accessToken && session.user) {
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
         session.accessToken = token.accessToken;
       }
 
-      return session;
+      return Promise.resolve(session);
     },
   },
   pages: {

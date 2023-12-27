@@ -1,5 +1,7 @@
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import { Notifications } from "@mantine/notifications";
+import "@mantine/notifications/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
@@ -19,6 +21,7 @@ export default function App({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <MantineProvider theme={themeConfig} defaultColorScheme="dark">
+          <Notifications />
           <Component {...pageProps} />
         </MantineProvider>
       </QueryClientProvider>
