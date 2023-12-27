@@ -4,7 +4,7 @@ import { Layout } from "@/modules/dashboard";
 
 export default function DashboardHome() {
   return (
-    <Layout>
+    <Layout pageName="Home">
       <Button>Button</Button>
     </Layout>
   );

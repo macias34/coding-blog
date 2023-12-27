@@ -1,4 +1,11 @@
-import { AppShell, Burger, Group, NavLink, Skeleton } from "@mantine/core";
+import {
+  AppShell,
+  Burger,
+  Group,
+  NavLink,
+  Skeleton,
+  Title,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Home, TextIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -11,12 +18,13 @@ import { SessionInfo } from "./session-info";
 import { SignOutButton } from "./sign-out-button";
 
 export interface LayoutProps extends PropsWithChildren {
+  pageName?: string;
   classNames?: {
     children?: string;
   };
 }
 
-export const Layout: FC<LayoutProps> = ({ children, classNames }) => {
+export const Layout: FC<LayoutProps> = ({ pageName, children, classNames }) => {
   const [opened, { toggle }] = useDisclosure();
   const session = useSession();
   const user = session?.data?.user;
@@ -40,6 +48,7 @@ export const Layout: FC<LayoutProps> = ({ children, classNames }) => {
           ) : (
             <Skeleton width={180} height={40} />
           )}
+          {pageName && <Title order={5}>{pageName}</Title>}
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="xl">

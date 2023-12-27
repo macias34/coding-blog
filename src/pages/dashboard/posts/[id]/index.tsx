@@ -1,8 +1,7 @@
 import { Card, Stack } from "@mantine/core";
-import { TextIcon } from "lucide-react";
 import { useRouter } from "next/router";
 
-import { Layout, PageHeader } from "@/modules/dashboard";
+import { Layout } from "@/modules/dashboard";
 import { ManagePostForm, useFindPost } from "@/modules/post";
 
 export default function DashboardPost() {
@@ -11,17 +10,12 @@ export default function DashboardPost() {
 
   const { post } = useFindPost({ postId });
 
+  const pageName = `Manage post ${post?.title ?? postId} `;
+
   return (
-    <Layout>
+    <Layout pageName={pageName}>
       <Stack gap="xl">
-        <PageHeader>
-          <PageHeader.TitleGroup>
-            <PageHeader.Icon as={<TextIcon size={36} />} />
-            <PageHeader.Title>Post</PageHeader.Title>
-          </PageHeader.TitleGroup>
-          <PageHeader.Description>Manage post content</PageHeader.Description>
-        </PageHeader>
-        <Card p="xl" className="flex flex-col items-start">
+        <Card p="lg" className="flex flex-col items-start">
           {post && <ManagePostForm post={post} />}
         </Card>
       </Stack>

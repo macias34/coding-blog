@@ -25,13 +25,14 @@ export const ManagePostForm = ({ post }: ManagePostFormProps) => {
           {...getInputProps("title")}
           error={errors.title}
           label="Title"
-          size="lg"
+          placeholder="React is shitty"
         />
 
         <PostContentEditor
           content={post.content ?? ""}
           setContent={setContent}
           validateContent={validateContent}
+          error={errors.content}
         />
 
         <Button
