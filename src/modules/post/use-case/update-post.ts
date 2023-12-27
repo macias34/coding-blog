@@ -4,8 +4,8 @@ import { request, toast } from "@/shared/utils";
 
 import { type UpdatePostDto, updatePostDtoSchema } from "../dto";
 
-const updatePost = async ({ postId, ...dto }: UpdatePostDto) => {
-  return (await request.patch<void>(`/post/${postId}`, { dto })).data;
+const updatePost = async ({ id, ...dto }: UpdatePostDto) => {
+  return (await request.patch<void>(`/post/${id}`, dto)).data;
 };
 
 export const useUpdatePost = () => {
