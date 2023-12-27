@@ -1,13 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
-import { request } from "@/shared/utils";
+import { request, toast } from "@/shared/utils";
 
 import { type Post } from "../domain";
-
-interface CreatePostDto {
-  authorId: number;
-}
+import { type CreatePostDto } from "../dto";
 
 const createPost = async ({ authorId }: CreatePostDto) => {
   return (await request.post<Post>("/post", { authorId })).data;
@@ -20,6 +17,10 @@ export const useCreatePost = () => {
     mutationFn: createPost,
     onSuccess(createdPost) {
       void router.push(`/dashboard/posts/${createdPost.id}`);
+      toast.success({ message: "Post created successfully" });
+    },
+    onError() {
+      toast.error({ message: "Failed to create post" });
     },
   });
 
