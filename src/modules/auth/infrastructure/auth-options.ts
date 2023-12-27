@@ -23,16 +23,26 @@ export const authOptions: NextAuthOptions = {
         const { username, password } =
           await loginSchema.parseAsync(credentials);
 
-        const user = await signIn({
-          credentials: { username, password },
-        });
+        try {
+          const user = await signIn({
+            credentials: { username, password },
+          });
 
-        const { accessToken } = user;
+          const { accessToken } = user;
 
-        if (!accessToken || Object.keys(accessToken).length === 0) return;
+          if (!accessToken || Object.keys(accessToken).length === 0) return;
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any
-        return user as any;
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any
+          return user as any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+          const message: string =
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            error?.response?.data?.message ?? "Something went wrong";
+
+          throw new Error(message);
+        }
       },
     }),
   ],
@@ -47,7 +57,7 @@ export const authOptions: NextAuthOptions = {
         token.user = user.user;
         token.accessToken = user.accessToken;
       }
-      return Promise.resolve(token);
+      return token;
     },
     session({ session, token }) {
       if (token.user && token.accessToken && session.user) {
@@ -55,7 +65,7 @@ export const authOptions: NextAuthOptions = {
         session.accessToken = token.accessToken;
       }
 
-      return Promise.resolve(session);
+      return session;
     },
   },
   pages: {

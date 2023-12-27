@@ -24,15 +24,17 @@ export const useSignIn = () => {
         ...credentials,
         redirect: false,
       });
+
       if (response?.ok) {
         await Router.push("/dashboard");
-
         toast.success({ message: "You have been signed in" });
       } else {
-        throw new Error("Wrong credentials.");
+        throw new Error(response?.error ?? "Something went wrong");
       }
-    } catch {
-      toast.error({ message: "You haven't been signed in" });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      toast.error({ message: error?.message });
     } finally {
       setPending(false);
     }
