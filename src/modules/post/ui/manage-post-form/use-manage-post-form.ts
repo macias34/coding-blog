@@ -7,13 +7,14 @@ import { useUpdatePost } from "../../use-case";
 export const useManagePostForm = (post: Post) => {
   const { author, ...postWithoutAuthor } = post;
 
-  const { getInputProps, errors, onSubmit } = useForm<UpdatePostDto>({
-    validate: zodResolver(updatePostDtoSchema),
-    initialValues: {
-      ...postWithoutAuthor,
-      authorId: author.id,
-    },
-  });
+  const { getInputProps, errors, onSubmit, validateField, setValues } =
+    useForm<UpdatePostDto>({
+      validate: zodResolver(updatePostDtoSchema),
+      initialValues: {
+        ...postWithoutAuthor,
+        authorId: author.id,
+      },
+    });
 
   const { execute, isPending } = useUpdatePost();
 
@@ -21,10 +22,20 @@ export const useManagePostForm = (post: Post) => {
     execute(updatePostDto);
   });
 
+  const setContent = (content: string) => {
+    setValues({ content });
+  };
+
+  const validateContent = () => {
+    validateField("content");
+  };
+
   return {
     isPending,
     getInputProps,
     errors,
     updatePost,
+    setContent,
+    validateContent,
   };
 };

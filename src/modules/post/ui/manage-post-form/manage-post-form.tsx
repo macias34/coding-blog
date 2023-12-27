@@ -1,6 +1,7 @@
 import { Button, Stack, TextInput } from "@mantine/core";
 
 import { type Post } from "../../domain";
+import { PostContentEditor } from "../post-content-editor";
 import { useManagePostForm } from "./use-manage-post-form";
 
 interface ManagePostFormProps {
@@ -8,8 +9,14 @@ interface ManagePostFormProps {
 }
 
 export const ManagePostForm = ({ post }: ManagePostFormProps) => {
-  const { getInputProps, errors, updatePost, isPending } =
-    useManagePostForm(post);
+  const {
+    getInputProps,
+    errors,
+    updatePost,
+    isPending,
+    setContent,
+    validateContent,
+  } = useManagePostForm(post);
 
   return (
     <form onSubmit={updatePost} className="w-full">
@@ -19,6 +26,12 @@ export const ManagePostForm = ({ post }: ManagePostFormProps) => {
           error={errors.title}
           label="Title"
           size="lg"
+        />
+
+        <PostContentEditor
+          content={post.content ?? ""}
+          setContent={setContent}
+          validateContent={validateContent}
         />
 
         <Button
