@@ -2,11 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 
 import { request, toast } from "@/shared/utils";
 
-import { type Post } from "../domain";
-import { type UpdatePostDto } from "../dto";
+import { type UpdatePostDto, updatePostDtoSchema } from "../dto";
 
 const updatePost = async ({ postId, ...dto }: UpdatePostDto) => {
-  return (await request.patch<Post>(`/post/${postId}`, { dto })).data;
+  return (await request.patch<void>(`/post/${postId}`, { dto })).data;
 };
 
 export const useUpdatePost = () => {
@@ -20,5 +19,10 @@ export const useUpdatePost = () => {
     },
   });
 
-  return { mutate, isPending };
+  const execute = (dto: UpdatePostDto) => {
+    updatePostDtoSchema.parse(dto);
+    mutate(dto);
+  };
+
+  return { execute, isPending };
 };
