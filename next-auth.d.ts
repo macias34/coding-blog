@@ -1,20 +1,22 @@
+import { User as DomainUser } from "@/modules/auth";
 import { Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
   interface User {
-    username: string;
+    user: DomainUser;
     accessToken: string;
   }
 
   interface Session {
-    user: User | null;
+    user: DomainUser;
+    accessToken: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    username: string;
+    user: DomainUser;
     accessToken?: string;
   }
 }

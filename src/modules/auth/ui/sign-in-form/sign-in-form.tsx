@@ -1,9 +1,8 @@
-import { TextInput, PasswordInput, Button, Stack } from "@mantine/core";
+import { Button, PasswordInput, Stack, TextInput } from "@mantine/core";
+
 import { useSignInForm } from "./use-sign-in-form";
 
-interface SignInFormProps {}
-
-export const SignInForm = ({}: SignInFormProps) => {
+export const SignInForm = () => {
   const { handleSubmit, getInputProps, errors, isPending } = useSignInForm();
 
   return (

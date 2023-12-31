@@ -7,7 +7,7 @@ export const SignOutButton = () => {
 
   return (
     <NavLink
-      label="Wyloguj"
+      label="Sign out"
       onClick={() => mutate()}
       component={"button"}
       leftSection={<LogOut size="1rem" />}
