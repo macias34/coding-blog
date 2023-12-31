@@ -1,4 +1,4 @@
-import { NotificationData, notifications } from "@mantine/notifications";
+import { type NotificationData, notifications } from "@mantine/notifications";
 
 export const toast = {
   success: (props: NotificationData) =>

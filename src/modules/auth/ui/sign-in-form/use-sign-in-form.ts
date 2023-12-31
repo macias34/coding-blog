@@ -1,17 +1,18 @@
 import { useForm, zodResolver } from "@mantine/form";
-import { Credentials, CredentialsSchema } from "../../domain";
+
+import { type Credentials, CredentialsSchema } from "../../domain";
 import { useSignIn } from "../../use-case";
 
+// eslint-disable-next-line max-lines-per-function
 export const useSignInForm = () => {
-  const { mutate, isPending } = useSignIn();
+  const { execute, isPending } = useSignIn();
 
   const { getInputProps, onSubmit, errors } = useForm<Credentials>({
     validate: zodResolver(CredentialsSchema),
   });
 
-  const handleSubmit = onSubmit((credentials: Credentials) => {
-    mutate({ credentials });
-  });
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  const handleSubmit = onSubmit(execute);
 
   return {
     getInputProps,
